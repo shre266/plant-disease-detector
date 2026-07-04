@@ -4,7 +4,6 @@ import torch.nn as nn
 from torchvision import transforms, models
 from PIL import Image
 import json
-import os
 
 # Page config
 st.set_page_config(page_title="Plant Disease Detector", 
@@ -45,10 +44,9 @@ def get_treatment(class_name):
 def load_model():
     with open('models/class_names.json', 'r') as f:
         classes = json.load(f)
-    
     model = models.resnet50(weights=None)
     model.fc = nn.Linear(model.fc.in_features, len(classes))
-    model.load_state_dict(torch.load('models/plant_disease_epoch1.pth', 
+    model.load_state_dict(torch.load('models/plant_disease_model.pth', 
                                       map_location='cpu'))
     model.eval()
     return model, classes
@@ -62,7 +60,7 @@ transform = transforms.Compose([
 
 # UI
 st.title("🌿 Plant Disease Detector")
-st.markdown("Upload a photo of a plant leaf and the AI will detect any diseases.")
+st.markdown("Upload a close-up photo of a plant leaf and the AI will detect any diseases.")
 st.markdown("---")
 
 uploaded_file = st.file_uploader("📸 Upload a leaf image", 
@@ -70,7 +68,7 @@ uploaded_file = st.file_uploader("📸 Upload a leaf image",
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file).convert('RGB')
-    st.image(image, caption="Uploaded Leaf", use_column_width=True)
+    st.image(image, caption="Uploaded Leaf", use_container_width=True)
     
     if st.button("🔍 Detect Disease", use_container_width=True):
         with st.spinner("Analyzing leaf..."):

@@ -4,3 +4,7 @@ __pycache__/
 dataset/
 .ipynb_checkpoints/
 models/plant_disease_epoch1.pth
+models/plant_disease_epoch2.pth
+models/plant_disease_epoch3.pth
+models/plant_disease_epoch4.pth
+models/plant_disease_epoch5.pth
